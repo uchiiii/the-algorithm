@@ -97,6 +97,7 @@ case class CandidateSourcesRouter @Inject() (
     params: configapi.Params,
   ): Future[Seq[Seq[InitialCandidate]]] = {
 
+    // ここで使われる
     val tweetBasedCandidatesFuture = getCandidates(
       getTweetBasedSourceInfo(sourceSignals),
       params,
@@ -111,6 +112,7 @@ case class CandidateSourcesRouter @Inject() (
         producerBasedUnifiedSimilarityEngine.getCandidates
       )
 
+    // 他にも simCluster からも
     val simClustersInterestedInBasedCandidatesFuture =
       getCandidatesPerSimilarityEngineModel(
         requestUserId,

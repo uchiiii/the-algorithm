@@ -29,6 +29,7 @@ sealed trait TwhinEmbeddingsAdapter extends TimelinesMutatingAdapterBase[Option[
   }
 }
 
+// 3つの relation に関する embedding が用いられてそう
 object TwhinEmbeddingsFeatures {
   val TwhinAuthorFollowEmbeddingsFeature: Feature.Tensor = new Feature.Tensor(
     "original_author.twhin.tw_hi_n.author_follow_as_float_tensor",

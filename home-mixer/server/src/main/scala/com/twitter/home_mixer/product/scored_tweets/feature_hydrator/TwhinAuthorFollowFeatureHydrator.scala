@@ -34,6 +34,8 @@ object TwhinAuthorFollowFeature
   override def defaultValue: DataRecord = new DataRecord()
 }
 
+// 「feature hydration」は、機械学習の文脈で、特に特徴エンジニアリングのプロセスに関連する概念です。
+//  具体的には、元のデータセットに新しい特徴を追加することで、モデルの性能を向上させることを指します。
 @Singleton
 class TwhinAuthorFollowFeatureHydrator @Inject() (
   @Named(TwhinAuthorFollowFeatureRepository)

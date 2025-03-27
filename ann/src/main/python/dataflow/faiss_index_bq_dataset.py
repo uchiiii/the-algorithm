@@ -175,6 +175,8 @@ class MergeAndBuildIndex(beam.CombineFn):
     N = ids.shape[0]
     logging.info(f"There are {dimensions} dimensions")
 
+
+    # ここら辺で ann のパラメタを指定する
     if self.factory_string is None:
       M = 48
 
@@ -185,6 +187,15 @@ class MergeAndBuildIndex(beam.CombineFn):
         opq_prefix = f"OPQ{M}"
 
       clusters = N // 20
+      # https://github.com/facebookresearch/faiss/wiki/The-index-factory
+      # PQ: Product Quantization 
+      #     https://mti-lab.github.io/blog/2021/06/21/4bitpq.html
+      # OPQ: Optimized Product Quantization
+      #      OPQでは、元のベクトル空間に対して回転行列を適用します。この回転により、ベクトルの成分がより均等に分散され、量子化の精度が向上します。
+      #      前処理として行われる。
+      # IVF: Inverted File Indexes
+      #      データをクラスタリングして、各クラスタに対して逆ファイル（inverted file）を作成する手法
+      #      検索時には、まずクエリベクトルに最も近いクラスタセンターを見つけ、そのクラスタ内での検索を行うことで、全体の検索空間を大幅に削減
       self.factory_string = f"{opq_prefix},IVF{clusters},PQ{M}"
 
     logging.info(f"Factory string is {self.factory_string}, metric={self.metric}")

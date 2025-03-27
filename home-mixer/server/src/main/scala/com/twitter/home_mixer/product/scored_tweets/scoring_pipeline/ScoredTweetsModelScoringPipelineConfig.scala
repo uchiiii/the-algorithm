@@ -177,6 +177,7 @@ class ScoredTweetsModelScoringPipelineConfig @Inject() (
     InsertAppendResults(nonCachedScoringPipelineScope)
   )
 
+  // phase 1 
   override val preScoringFeatureHydrationPhase1: Seq[
     BaseCandidateFeatureHydrator[ScoredTweetsQuery, TweetCandidate, _]
   ] = Seq(
@@ -207,6 +208,7 @@ class ScoredTweetsModelScoringPipelineConfig @Inject() (
     phase1EdgeAggregateFeatureHydrator
   )
 
+  // phase 2
   override val preScoringFeatureHydrationPhase2: Seq[
     BaseCandidateFeatureHydrator[ScoredTweetsQuery, TweetCandidate, _]
   ] = Seq(

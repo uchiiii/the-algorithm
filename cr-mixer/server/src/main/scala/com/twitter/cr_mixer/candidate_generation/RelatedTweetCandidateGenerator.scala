@@ -72,11 +72,13 @@ class RelatedTweetCandidateGenerator @Inject() (
     relatedTweetScribeLogger.scribeInitialCandidates(
       query,
       query.internalId match {
+        // i2i
         case InternalId.TweetId(_) =>
           getCandidatesFromSimilarityEngine(
             query,
             TweetBasedUnifiedSimilarityEngine.fromParamsForRelatedTweet,
             tweetBasedUnifiedSimilarityEngine.getCandidates)
+        // u2i
         case InternalId.UserId(_) =>
           getCandidatesFromSimilarityEngine(
             query,

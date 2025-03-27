@@ -74,6 +74,7 @@ case class TweetBasedUnifiedSimilarityEngine(
     query.sourceInfo.internalId match {
       case _: InternalId.TweetId =>
         StatsUtil.trackOptionItemsStats(fetchCandidatesStat) {
+          // ここで ANN でデータをとってくる
           val twhinQuery =
             HnswANNEngineQuery(
               sourceId = query.sourceInfo.internalId,
@@ -336,6 +337,7 @@ case class TweetBasedUnifiedSimilarityEngine(
                     ))
                 }
 
+                // 他の candidate とまとめてられて interleave された上で、次の stage へ渡される
                 val candidateSourcesToBeInterleaved =
                   ArrayBuffer[Seq[TweetWithCandidateGenerationInfo]](
                     sannTweetsWithCGInfo,
@@ -348,7 +350,7 @@ case class TweetBasedUnifiedSimilarityEngine(
                     qigTweetsWithCGInfo,
                     uvgTweetsWithCGInfo,
                     utgTweetsWithCGInfo,
-                    twHINTweetsWithCGInfo
+                    twHINTweetsWithCGInfo // これ
                   )
 
                 val interleavedCandidates =
@@ -421,6 +423,7 @@ case class TweetBasedUnifiedSimilarityEngine(
     candidates.filter { candidate => candidate.tweetId >= earliestTweetId }
   }
 
+  // TWHIN からとってきた candidate に対して条件を満たさないものをフィルタ
   private def twhinFilter(
     twhinCandidates: Seq[TweetWithScore],
     twhinMaxTweetAgeHours: Duration,

@@ -30,6 +30,8 @@ case class HnswANNEngineQuery(
   val cacheKey: String = s"${modelId}_${sourceId.toString}"
 }
 
+
+// HNSW でとってくる模様
 /**
  * This Engine looks for tweets whose similarity is close to a Source Dense Embedding.
  * Only support Long based embedding lookup. UserId or TweetId.
@@ -50,6 +52,7 @@ class HnswANNSimilarityEngine(
     extends SimilarityEngine[HnswANNEngineQuery, TweetWithScore] {
 
   private val MaxNumResults: Int = 200
+  // https://github.com/nmslib/hnswlib/blob/master/ALGO_PARAMS.md#search-parameters
   private val ef: Int = 800
   private val TweetIdByteInjection: Injection[lib.TweetId, Array[Byte]] = TweetKind.byteInjection
 
